@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         //}
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode ==0 && resultCode== Activity.RESULT_OK && data!=null){// not required for demo
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             val bitmapDrawable =  BitmapDrawable(bitmap)
             profilepic_btn_reg.setBackgroundDrawable(bitmapDrawable)
         }
-    }
+    }*/
 
     private fun createNewUser(){
         val email = email_edt_reg.text.toString()
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun uploadImageToFirebaseStorage(){//not neccessary for demo
+    /*private fun uploadImageToFirebaseStorage(){//not neccessary for demo
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d("FirebaseStorage", "Success image upload")
             }
-    }
+    }*/
 
     private fun saveToFirebaseDatabase(){
         val uid = FirebaseAuth.getInstance().uid?:""
@@ -91,6 +91,9 @@ class MainActivity : AppCompatActivity() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this,"Successful upload to DB", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MessagesActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
 
             }
             .addOnFailureListener{
