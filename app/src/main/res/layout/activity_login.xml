@@ -12,7 +12,8 @@
             app:layout_constraintStart_toStartOf="@+id/password_edt_signin"
             app:layout_constraintEnd_toEndOf="@+id/password_edt_signin"
             android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/password_edt_signin"
-            android:layout_width="0dp"/>
+            android:layout_width="0dp"
+            android:background="@drawable/rounded_btn"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -21,16 +22,19 @@
             android:id="@+id/email_edt_signin" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="32dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:hint="Email" android:background="@android:color/white"/>
+            android:layout_marginEnd="8dp" android:hint="Email"
+            android:background="@drawable/rounded_edt" android:textAlignment="center"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/password_edt_signin"
-            app:layout_constraintStart_toStartOf="@+id/email_edt_signin" app:layout_constraintEnd_toEndOf="@+id/email_edt_signin"
+            app:layout_constraintStart_toStartOf="@+id/email_edt_signin"
+            app:layout_constraintEnd_toEndOf="@+id/email_edt_signin"
             android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/email_edt_signin"
-            android:hint="Password" android:background="@android:color/white"/>
+            android:hint="Password"
+            android:background="@drawable/rounded_edt" android:textAlignment="center"/>
     <TextView
             android:text="Return to Registration"
             android:layout_width="wrap_content"
