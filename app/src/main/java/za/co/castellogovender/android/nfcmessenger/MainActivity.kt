@@ -10,7 +10,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
+import za.co.castellogovender.android.nfcmessenger.R.id.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,18 +33,17 @@ class MainActivity : AppCompatActivity() {
             createNewUser()
         }
 
-        profilepic_btn_reg.setOnClickListener{
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
+        //profilepic_btn_reg.setOnClickListener{
+          //  val intent = Intent(Intent.ACTION_PICK)
+          //  intent.type = "image/*"
+          //  startActivityForResult(intent, 0)
+        //}
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode ==0 && resultCode== Activity.RESULT_OK && data!=null){
-
+        if(requestCode ==0 && resultCode== Activity.RESULT_OK && data!=null){// not required for demo
             val photoURI = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,photoURI)
             val bitmapDrawable =  BitmapDrawable(bitmap)
@@ -59,13 +62,42 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
                 if (!it.isSuccessful) return@addOnCompleteListener
-
-                Log.d("Main", "Successfully created and added user to Firebase ${it.result.user.uid}")
+                //uploadImageToFirebaseStorage()
+                saveToFirebaseDatabase()
+                Toast.makeText(this,"Successfully created and added user to Firebase", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener{
-                Log.d("Main", "Failed to create user: ${it.message}")
+                Toast.makeText(this,"Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
 
 
     }
+
+    private fun uploadImageToFirebaseStorage(){//not neccessary for demo
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(photoURI!!)
+            .addOnSuccessListener {
+                Log.d("FirebaseStorage", "Success image upload")
+            }
+    }
+
+    private fun saveToFirebaseDatabase(){
+        val uid = FirebaseAuth.getInstance().uid?:""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val user = User(uid,username_edt_reg.text.toString())
+
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Toast.makeText(this,"Successful upload to DB", Toast.LENGTH_SHORT).show()
+
+            }
+            .addOnFailureListener{
+                Toast.makeText(this,"Failed to upload to DB ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }
+
+class User(val uid:String, val username:String)
