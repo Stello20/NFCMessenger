@@ -5,15 +5,54 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity" android:background="@android:color/holo_orange_light">
 
-    <TextView
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/username_edt_reg"
+            android:background="@android:color/white" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="Username" android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+            android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password_edt_reg"
+            app:layout_constraintStart_toStartOf="@+id/email_edt_reg"
+            app:layout_constraintEnd_toEndOf="@+id/email_edt_reg" android:hint="Password"
+            android:background="@android:color/white"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/email_edt_reg"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/email_edt_reg"
+            app:layout_constraintStart_toStartOf="@+id/username_edt_reg"
+            app:layout_constraintEnd_toEndOf="@+id/username_edt_reg" android:hint="Email"
+            android:background="@android:color/white"
+            app:layout_constraintHorizontal_bias="1.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/username_edt_reg"/>
+    <Button
+            android:text="Register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
+            android:id="@+id/register_btn_reg" app:layout_constraintStart_toStartOf="@+id/password_edt_reg"
+            app:layout_constraintEnd_toEndOf="@+id/password_edt_reg" android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/password_edt_reg"/>
+    <TextView
+            android:text="Already have an account?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/signin_txt_reg" app:layout_constraintStart_toStartOf="@+id/register_btn_reg"
+            app:layout_constraintEnd_toEndOf="@+id/register_btn_reg" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/register_btn_reg" android:textColor="@android:color/white"
+            android:textStyle="bold"/>
 </android.support.constraint.ConstraintLayout>
