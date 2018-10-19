@@ -103,4 +103,6 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-class User(val uid:String, val username:String)
+class User(val uid:String, val username:String){
+    constructor(): this("", "")
+}

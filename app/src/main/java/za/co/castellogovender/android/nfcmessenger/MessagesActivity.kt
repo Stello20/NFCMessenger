@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_messages.*
 
 class MessagesActivity : AppCompatActivity() {
 
@@ -12,6 +13,15 @@ class MessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_messages)
 
         verifyUserIsLoggedIn()
+        newmessage_btn_messages.setOnClickListener{
+            val intent = Intent(this, NewMessageActivity::class.java)
+            startActivity(intent)
+        }
+
+        logout_btn_messages.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
