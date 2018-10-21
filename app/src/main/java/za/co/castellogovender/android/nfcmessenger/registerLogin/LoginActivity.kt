@@ -1,4 +1,4 @@
-package za.co.castellogovender.android.nfcmessenger
+package za.co.castellogovender.android.nfcmessenger.registerLogin
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
+import za.co.castellogovender.android.nfcmessenger.R
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

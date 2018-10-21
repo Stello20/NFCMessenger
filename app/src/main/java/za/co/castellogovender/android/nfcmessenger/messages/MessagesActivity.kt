@@ -1,10 +1,12 @@
-package za.co.castellogovender.android.nfcmessenger
+package za.co.castellogovender.android.nfcmessenger.messages
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_messages.*
+import za.co.castellogovender.android.nfcmessenger.R
+import za.co.castellogovender.android.nfcmessenger.registerLogin.MainActivity
 
 class MessagesActivity : AppCompatActivity() {
 

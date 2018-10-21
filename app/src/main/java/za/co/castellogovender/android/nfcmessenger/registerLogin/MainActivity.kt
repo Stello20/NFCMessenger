@@ -1,20 +1,16 @@
-package za.co.castellogovender.android.nfcmessenger
+package za.co.castellogovender.android.nfcmessenger.registerLogin
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
-import za.co.castellogovender.android.nfcmessenger.R.id.*
-import java.util.*
+import za.co.castellogovender.android.nfcmessenger.messages.MessagesActivity
+import za.co.castellogovender.android.nfcmessenger.R
+import za.co.castellogovender.android.nfcmessenger.models.User
 
 class MainActivity : AppCompatActivity() {
 
@@ -86,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     private fun saveToFirebaseDatabase(){
         val uid = FirebaseAuth.getInstance().uid?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid,username_edt_reg.text.toString())
+        val user = User(uid, username_edt_reg.text.toString())
 
         ref.setValue(user)
             .addOnSuccessListener {
@@ -103,6 +99,3 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-class User(val uid:String, val username:String){
-    constructor(): this("", "")
-}
