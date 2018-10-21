@@ -5,6 +5,38 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".messages.ChatLogActivity">
 
+        tools:context=".messages.ChatLogActivity" android:background="@android:color/white">
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edt_chatlog"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sendbtn_chatlog" app:layout_constraintHorizontal_bias="0.4"
+            android:hint="Enter Message" android:layout_marginBottom="8dp"/>
+    <Button
+            android:text="Send"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/sendbtn_chatlog"
+            android:background="@drawable/rounded_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+    />
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/edt_chatlog" android:layout_marginBottom="8dp"
+            android:background="#ffb41f"
+            android:id="@+id/recycler_chatlog"/>
 </android.support.constraint.ConstraintLayout>
