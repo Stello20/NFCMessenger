@@ -1,5 +1,6 @@
 package za.co.castellogovender.android.nfcmessenger.messages
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -13,7 +14,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.user_row_new_message.view.*
 import za.co.castellogovender.android.nfcmessenger.R
-import za.co.castellogovender.android.nfcmessenger.registerLogin.User
+import za.co.castellogovender.android.nfcmessenger.models.User
 
 class NewMessageActivity : AppCompatActivity() {
 
@@ -21,14 +22,12 @@ class NewMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message)
 
+        supportActionBar?.title = "Select User"
         val adapter = GroupAdapter<ViewHolder>()
-
-
-        Toast.makeText(this,"finished", Toast.LENGTH_SHORT).show()
-
         recyclerview_newmessage.adapter = adapter
-
         fetchUsers()
+        Toast.makeText(this,"finished fetching", Toast.LENGTH_SHORT).show()
+
     }
 
     private fun fetchUsers(){
@@ -36,7 +35,6 @@ class NewMessageActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 
             override fun onDataChange(p0: DataSnapshot) {
-
                 val adapter = GroupAdapter<ViewHolder>()
 
                 p0.children.forEach{
@@ -44,6 +42,10 @@ class NewMessageActivity : AppCompatActivity() {
                     if (user != null){
                         adapter.add(UserItem(user))
                     }
+                }
+                adapter.setOnItemClickListener{item, view->
+                    val intent = Intent(view.context,ChatLogActivity::class.java)
+                    startActivity(intent)
                 }
                 recyclerview_newmessage.adapter = adapter
             }

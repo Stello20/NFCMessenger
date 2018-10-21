@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import za.co.castellogovender.android.nfcmessenger.R
+import za.co.castellogovender.android.nfcmessenger.messages.MessagesActivity
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,9 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 Toast.makeText(this,"Successful", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MessagesActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             .addOnFailureListener{
                 Toast.makeText(this,"Failed", Toast.LENGTH_SHORT).show()
