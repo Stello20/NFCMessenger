@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_messages.*
 import za.co.castellogovender.android.nfcmessenger.R
 import za.co.castellogovender.android.nfcmessenger.models.ChatMessage
 import za.co.castellogovender.android.nfcmessenger.models.User
+import za.co.castellogovender.android.nfcmessenger.nfc.HCEActivity
+import za.co.castellogovender.android.nfcmessenger.nfc.ReaderActivity
 import za.co.castellogovender.android.nfcmessenger.registerLogin.MainActivity
 import za.co.castellogovender.android.nfcmessenger.views.LatestMessageRow
 
@@ -59,7 +61,6 @@ class MessagesActivity : AppCompatActivity() {
                 val chatMessage = p0.getValue(ChatMessage::class.java)?:return
                 latestMessagesMap[p0.key!!] = chatMessage
                 refreshRecyclerView()
-
             }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java)?:return
@@ -72,12 +73,9 @@ class MessagesActivity : AppCompatActivity() {
 
             }
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
     }
-
-
 
     private fun fetchCurrentUser(){
         var uid = FirebaseAuth.getInstance().uid
@@ -86,12 +84,9 @@ class MessagesActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 currentUser = p0.getValue(User::class.java)
             }
-
             override fun onCancelled(p0: DatabaseError) {
-
             }
         })
-
     }
 
     private fun verifyUserIsLoggedIn(){
@@ -106,11 +101,11 @@ class MessagesActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.menu_nfcsend ->{
-                val intent = Intent(this, NewMessageActivity::class.java)
+                val intent = Intent(this, HCEActivity::class.java)
                 startActivity(intent)
             }
             R.id.menu_nfcrecieve ->{
-                val intent = Intent(this, NewMessageActivity::class.java)
+                val intent = Intent(this, ReaderActivity::class.java)
                 startActivity(intent)
             }
             R.id.menu_newmessage ->{

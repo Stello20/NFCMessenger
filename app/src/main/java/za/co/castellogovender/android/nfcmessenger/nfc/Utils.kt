@@ -33,5 +33,10 @@ class Utils {
 
             return result.toString()
         }
+
+        fun generateKey(){
+
+        }
+
     }
 }

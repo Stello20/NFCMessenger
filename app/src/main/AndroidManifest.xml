@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.NFC" />
 
-    <uses-feature android:name="android.hardware.nfc"
+    <uses-feature android:name="android.hardware.nfc.hce"
                   android:required="true" />
 
     <application
@@ -14,6 +14,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light">
+
         <service
                 android:name=".nfc.HostCardEmulatorService"
                 android:exported="true"
@@ -26,6 +27,7 @@
                     android:name="android.nfc.cardemulation.host_apdu_service"
                     android:resource="@xml/apduservice" />
         </service>
+
         <activity android:name=".messages.MessagesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -48,15 +50,15 @@
                     android:value=".messages.MessagesActivity"/>
         </activity>
         <activity android:name=".nfc.HCEActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".messages.MessagesActivity"/>
         </activity>
         <activity android:name=".nfc.ReaderActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".messages.MessagesActivity"/>
         </activity>
-
-        <service
-                android:name=".nfc.HostCardEmulatorService"
-                android:enabled="true"
-                android:exported="true">
-        </service>
     </application>
 
 </manifest>

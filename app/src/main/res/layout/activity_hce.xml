@@ -7,4 +7,13 @@
         android:layout_height="match_parent"
         tools:context=".nfc.HCEActivity">
 
+    <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="167dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="325dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="163dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="163dp"/>
 </android.support.constraint.ConstraintLayout>

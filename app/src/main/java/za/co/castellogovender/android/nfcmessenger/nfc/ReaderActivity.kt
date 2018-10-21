@@ -15,6 +15,7 @@ class ReaderActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reader)
+        supportActionBar?.title = "Reciever"
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
