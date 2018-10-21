@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_nfcsend"
           android:title=""
-          android:icon="@drawable/uparrow_bw"
+          android:icon="@drawable/uparrow"
           app:showAsAction="ifRoom"/>
     <item android:id="@+id/menu_nfcrecieve"
           android:title=""
-          android:icon="@drawable/downarrow_bw"
+          android:icon="@drawable/downarrow"
           app:showAsAction="ifRoom"/>
     <item android:id="@+id/menu_newmessage"
           android:title="New Message"
@@ -14,7 +14,7 @@
           app:showAsAction="ifRoom"/>
     <item android:id="@+id/menu_signout"
           android:title="Sign Out"
-          android:icon="@drawable/logout"
+          android:icon="@drawable/plus"
           app:showAsAction="ifRoom"/>
 
 

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="za.co.castellogovender.android.nfcmessenger">
 
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature android:name="android.hardware.nfc"
+                  android:required="true" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -34,6 +39,12 @@
         </activity>
         <activity android:name=".nfc.ReaderActivity">
         </activity>
+
+        <service
+                android:name=".nfc.HostCardEmulatorService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
     </application>
 
 </manifest>

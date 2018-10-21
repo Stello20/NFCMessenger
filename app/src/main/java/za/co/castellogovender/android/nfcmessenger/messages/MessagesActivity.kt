@@ -36,7 +36,7 @@ class MessagesActivity : AppCompatActivity() {
         verifyUserIsLoggedIn()
 
         listenForLatestRows()
-        adapter.setOnItemClickListener{item, view->
+        adapter.setOnItemClickListener{ item, _ ->
             val intent = Intent(this, ChatLogActivity::class.java)
             val row = item as LatestMessageRow
             intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
