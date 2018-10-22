@@ -5,21 +5,23 @@ import android.nfc.Tag
 import android.nfc.tech.IsoDep
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
 import za.co.castellogovender.android.nfcmessenger.R
 
 class ReaderActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     private var nfcAdapter: NfcAdapter? = null
-    private var keyA = "00A4040007"
+    private var apduHead = "00A4040007"
     private var identifier = "A0000002471001"
+    private var oldResponse = Utils.hexStringToByteArray(apduHead)
+    var response = Utils.hexStringToByteArray(apduHead)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reader)
         supportActionBar?.title = "Reciever"
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-
     }
 
     public override fun onResume() {
@@ -37,11 +39,17 @@ class ReaderActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     override fun onTagDiscovered(tag: Tag?) {
         val isoDep = IsoDep.get(tag)
         isoDep.connect()
-        //keyA = "00A4041110"
-        //identifier = "A0000002471001"
-        val response = isoDep.transceive(Utils.hexStringToByteArray(keyA+identifier))
+        if (oldResponse==response){
+            identifier=""
+            apduHead=""
+        }
+        response = isoDep.transceive(Utils.hexStringToByteArray(apduHead+identifier))
         runOnUiThread { textView.append("\nCard Response: "
-                + Utils.toHex(response)) }
+                + Utils.toHex(response))
+            Toast.makeText(this,"Recieved", Toast.LENGTH_SHORT).show()}
+        oldResponse= response
+        HostCardEmulatorService.myDevice.setReceiverPublicKey(KeyExchangeSec.toPublicKey(response))
+        HostCardEmulatorService.encryptext = HostCardEmulatorService.myDevice.encrypt("hello world")
         isoDep.close()
     }
 }

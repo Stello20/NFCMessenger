@@ -20,7 +20,9 @@ class HostCardEmulatorService: HostApduService() {
         val SELECT_INS = "A4"
         val DEFAULT_CLA = "00"
         val MIN_APDU_LENGTH = 12
-        var keyA ="0" //recieved key
+
+        var encryptext = " "
+        var myDevice:KeyExchangeSec = KeyExchangeSec()
     }
 
     override fun onDeactivated(reason: Int) {
@@ -29,9 +31,7 @@ class HostCardEmulatorService: HostApduService() {
 
     override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray? {
         if (commandApdu != null) {
-            val keyB = EDCH_BC.getPublicKey() //sent key
-            //keyA = keyB
-            return Utils.hexStringToByteArray(keyB)
+            return myDevice.publickey.encoded // send public key
         }
         /*
         if (commandApdu == null) {

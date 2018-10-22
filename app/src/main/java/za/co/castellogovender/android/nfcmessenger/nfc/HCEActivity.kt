@@ -27,22 +27,29 @@ class HCEActivity : AppCompatActivity() {
     }
 
     private fun refreshAPDU(){
-        txt_hce.append("\n"+HostCardEmulatorService.keyA)
+        //txt_hce.append("\nMy Private Key: "+HostCardEmulatorService.myDevice.privatekey)
+        //txt_hce.append("\nMy Public Key: "+HostCardEmulatorService.myDevice.publickey)
+        if (HostCardEmulatorService.myDevice.sharedsecret!=null){
+            if (edt_key_hce.text!=null) {
+                txt_hce.text = HostCardEmulatorService.myDevice.encrypt(edt_key_hce.text.toString())
+            }
+        }
+        txt_hce.text = HostCardEmulatorService.encryptext
     }
 
     override fun onResume() {
         super.onResume()
 
-        if (!nfcAdapter!!.isEnabled){
+        /*if (!nfcAdapter!!.isEnabled){
             startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
-        }
+        }*/
     }
 
     override fun onPause() {
         super.onPause()
-        if (nfcAdapter!!.isEnabled){
+        /*if (nfcAdapter!!.isEnabled){
             startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
-        }
+        }*/
     }
 
 
