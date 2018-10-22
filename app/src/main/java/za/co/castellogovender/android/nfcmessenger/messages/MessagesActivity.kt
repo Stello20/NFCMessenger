@@ -106,6 +106,7 @@ class MessagesActivity : AppCompatActivity() {
             }
             R.id.menu_nfcrecieve ->{
                 val intent = Intent(this, ReaderActivity::class.java)
+                intent.putExtra("AID", "Key data")
                 startActivity(intent)
             }
             R.id.menu_newmessage ->{

@@ -1,8 +1,12 @@
 package za.co.castellogovender.android.nfcmessenger.nfc
 
+import android.content.Intent
 import android.nfc.cardemulation.HostApduService
 import android.os.Bundle
 import android.util.Log
+import za.co.castellogovender.android.nfcmessenger.messages.ChatLogActivity
+import za.co.castellogovender.android.nfcmessenger.messages.NewMessageActivity
+import java.security.KeyPair
 
 class HostCardEmulatorService: HostApduService() {
 
@@ -16,13 +20,20 @@ class HostCardEmulatorService: HostApduService() {
         val SELECT_INS = "A4"
         val DEFAULT_CLA = "00"
         val MIN_APDU_LENGTH = 12
+        var keyA ="0" //recieved key
     }
 
     override fun onDeactivated(reason: Int) {
         Log.d(TAG, "Deactivated: " + reason)
     }
 
-    override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray {
+    override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray? {
+        if (commandApdu != null) {
+            val keyB = EDCH_BC.getPublicKey() //sent key
+            //keyA = keyB
+            return Utils.hexStringToByteArray(keyB)
+        }
+        /*
         if (commandApdu == null) {
             return Utils.hexStringToByteArray(STATUS_FAILED)
         }
@@ -41,9 +52,11 @@ class HostCardEmulatorService: HostApduService() {
         }
 
         if (hexCommandApdu.substring(10, 24) == AID)  {
+            return Utils.hexStringToByteArray("")//STATUS_SUCCESS)
+        }*/ else {
             return Utils.hexStringToByteArray(STATUS_SUCCESS)
-        } else {
-            return Utils.hexStringToByteArray(STATUS_FAILED)
         }
+
     }
+
 }

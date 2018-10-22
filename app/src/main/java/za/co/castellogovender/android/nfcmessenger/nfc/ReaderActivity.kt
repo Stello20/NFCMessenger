@@ -11,12 +11,15 @@ import za.co.castellogovender.android.nfcmessenger.R
 class ReaderActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     private var nfcAdapter: NfcAdapter? = null
+    private var keyA = "00A4040007"
+    private var identifier = "A0000002471001"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reader)
         supportActionBar?.title = "Reciever"
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+
     }
 
     public override fun onResume() {
@@ -34,7 +37,9 @@ class ReaderActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     override fun onTagDiscovered(tag: Tag?) {
         val isoDep = IsoDep.get(tag)
         isoDep.connect()
-        val response = isoDep.transceive(Utils.hexStringToByteArray("00A4040007A0000002471001"))
+        //keyA = "00A4041110"
+        //identifier = "A0000002471001"
+        val response = isoDep.transceive(Utils.hexStringToByteArray(keyA+identifier))
         runOnUiThread { textView.append("\nCard Response: "
                 + Utils.toHex(response)) }
         isoDep.close()

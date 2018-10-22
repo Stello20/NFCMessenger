@@ -1,8 +1,13 @@
 package za.co.castellogovender.android.nfcmessenger.nfc
 
+import com.google.android.gms.flags.FlagSource.G
+
 class Utils {
 
+
+
     companion object {
+
         private val HEX_CHARS = "0123456789ABCDEF"
         fun hexStringToByteArray(data: String) : ByteArray {
 
@@ -34,9 +39,33 @@ class Utils {
             return result.toString()
         }
 
-        fun generateKey(){
+
+
+        /*fun generateKey(){
 
         }
+
+        fun E(x:Int, y:Int):Pair<Int,Int>{
+            val G = Pair(5,1)
+            return G
+        }
+
+        fun G2(){
+            val s = (((3*G.first*G.first)+2)%17)/((2*G.second)%17)%17
+
+            val x2g = (((s*s)%17) - ((2*G.first)%17))%17
+            val y2g = ((s*(G.first-x2g)%17) - G.second)%17
+
+        }
+        fun s(x:Int, y:Int):Int{
+            return (((3*x*x)+2)%17)/((2*y)%17)%17
+        }
+        fun x2g(x:Int, s:Int):Int{
+            return (((s*s)%17) - ((2*x)%17))%17
+        }
+        fun y2g(x:Int,y:Int, s:Int, x2g:Int):Int{
+            return ((s*(x-x2g)%17) - y)%17
+        }*/
 
     }
 }
