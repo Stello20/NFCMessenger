@@ -71,10 +71,10 @@ public class KeyExchangeSec {
         }
     }
 
-    public String encrypt(String msg) {
+    public static String encrypt(String msg, byte[] ss, String al) {
         try {
-            Key key = generateKey();
-            Cipher c = Cipher.getInstance(ALGO);
+            Key key = new SecretKeySpec(ss, al) ;
+            Cipher c = Cipher.getInstance(al);
             c.init(Cipher.ENCRYPT_MODE, key);
             byte[] encVal = c.doFinal(msg.getBytes());
             return bytesToHex(encVal);
@@ -84,10 +84,10 @@ public class KeyExchangeSec {
         return msg;
     }
 
-    public String decrypt(String encryptedData) {
+    public static String decrypt(String encryptedData, byte[] ss, String al) {
         try {
-            Key key = generateKey();
-            Cipher c = Cipher.getInstance(ALGO);
+            Key key = new SecretKeySpec(ss, al);
+            Cipher c = Cipher.getInstance(al);
             c.init(Cipher.DECRYPT_MODE, key);
             byte[] decordedValue = hexStringToByteArray(encryptedData);
             byte[] decValue = c.doFinal(decordedValue);

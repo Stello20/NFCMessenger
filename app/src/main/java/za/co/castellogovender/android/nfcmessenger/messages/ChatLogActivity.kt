@@ -2,6 +2,7 @@ package za.co.castellogovender.android.nfcmessenger.messages
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -18,11 +19,13 @@ import za.co.castellogovender.android.nfcmessenger.R
 import za.co.castellogovender.android.nfcmessenger.messages.MessagesActivity.Companion.currentUser
 import za.co.castellogovender.android.nfcmessenger.models.ChatMessage
 import za.co.castellogovender.android.nfcmessenger.models.User
+import za.co.castellogovender.android.nfcmessenger.nfc.KeyExchangeSec
 
 class ChatLogActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<ViewHolder>()
     var toUser:User? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +46,26 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages(){
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val fromId = FirebaseAuth.getInstance().uid
         val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
         ref.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
+
+                val user1 = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+                val toId1 = user1.uid
+                var ss = preferences.getString(toId1, "5555555555555555")
+                //val mss = KeyExchangeSec.encrypt(message,KeyExchangeSec.hexStringToByteArray(ss), "AES")
+
                 if (chatMessage!= null) {
                     if(chatMessage.fromId==FirebaseAuth.getInstance().uid){
                         val currentUser = MessagesActivity.currentUser ?:return
-                        adapter.add(ChatFromItem(chatMessage.message, currentUser))
+                        adapter.add(ChatFromItem(KeyExchangeSec.decrypt(chatMessage.message,KeyExchangeSec.hexStringToByteArray(ss), "AES"), currentUser))
                     }
                     else {
-                        adapter.add(ChatToItem(chatMessage.message, toUser!!))
+                        adapter.add(ChatToItem(KeyExchangeSec.decrypt(chatMessage.message,KeyExchangeSec.hexStringToByteArray(ss), "AES"), toUser!!))
                     }
                 }
                 recycler_chatlog.scrollToPosition(adapter.itemCount-1)
@@ -82,10 +92,14 @@ class ChatLogActivity : AppCompatActivity() {
         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         val toId = user.uid
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        var ss = preferences.getString(toId, "5555555555555555")
+        val mss = KeyExchangeSec.encrypt(message,KeyExchangeSec.hexStringToByteArray(ss), "AES")
+
         if (fromId==null)return
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
-        val chatMessage = ChatMessage(reference.key!!, message, fromId, toId, System.currentTimeMillis()/1000 )
+        val chatMessage = ChatMessage(reference.key!!, mss, fromId, toId, System.currentTimeMillis()/1000 )
         reference.setValue(chatMessage)
             .addOnSuccessListener {
                 edt_chatlog.text.clear()
