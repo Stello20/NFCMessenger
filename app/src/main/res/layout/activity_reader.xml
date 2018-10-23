@@ -7,21 +7,38 @@
         android:layout_height="match_parent"
         tools:context=".nfc.ReaderActivity">
 
+    <Button
+            android:text="Generate Shared Key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_btn"
+            android:padding="8dp"
+            android:id="@+id/btn_gensharedkey_reader" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="54dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="102dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="102dp"/>
     <TextView
-            android:text="TextView"
+            android:text="Shared Key: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="163dp"
-            android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="290dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="163dp" app:layout_constraintTop_toBottomOf="@+id/editText"/>
-    <EditText
+            android:id="@+id/txt_sharedkey_reader" app:layout_constraintEnd_toEndOf="@+id/btn_gensharedkey_reader"
+            app:layout_constraintStart_toStartOf="@+id/btn_gensharedkey_reader" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_gensharedkey_reader"/>
+    <TextView
+            android:text="Recieved Public Key:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/editText" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="82dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="85dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="84dp" android:hint="Key"/>
+            android:id="@+id/publickey_reader"
+            app:layout_constraintEnd_toEndOf="@+id/txt_sharedkey_reader"
+            app:layout_constraintStart_toStartOf="@+id/txt_sharedkey_reader" android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_sharedkey_reader"/>
+    <Button
+            android:text="SWITCH TO SENDER MODE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_btn"
+            android:padding="8dp"
+            android:id="@+id/btn_switchtosender_reader" app:layout_constraintEnd_toEndOf="@+id/publickey_reader"
+            app:layout_constraintStart_toStartOf="@+id/publickey_reader" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="32dp"/>
 </android.support.constraint.ConstraintLayout>

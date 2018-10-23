@@ -1,10 +1,7 @@
 package za.co.castellogovender.android.nfcmessenger.nfc;
 
-import org.w3c.dom.Node;
-
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -15,15 +12,19 @@ public class KeyExchangeSec {
     private PublicKey publickey;
     private PrivateKey privatekey;
     KeyAgreement keyAgreement;
-    byte[] sharedsecret;
+    private byte[] sharedsecret;
+    private boolean isEmpty;
 
     String ALGO = "AES";
 
     KeyExchangeSec() {
-        makeKeyExchangeParams();
+        publickey = null;
+        privatekey = null;
+        keyAgreement = null;
+        sharedsecret = null;
+        isEmpty=true;
     }
-
-    private void makeKeyExchangeParams() {
+    KeyExchangeSec(String alg, int kSize){
         KeyPairGenerator kpg = null;
         try {
             kpg = KeyPairGenerator.getInstance("EC");
@@ -33,17 +34,9 @@ public class KeyExchangeSec {
             keyAgreement = KeyAgreement.getInstance("ECDH");
             privatekey = kp.getPrivate();
             keyAgreement.init(kp.getPrivate());
+            isEmpty=false;
 
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setReceiverPublicKey(PublicKey publickey) {
-        try {
-            keyAgreement.doPhase(publickey, true);
-            sharedsecret = keyAgreement.generateSecret();
-        } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
     }
@@ -69,6 +62,15 @@ public class KeyExchangeSec {
         return data;
     }
 
+    public void setReceiverPublicKey(PublicKey publickey) {
+        try {
+            keyAgreement.doPhase(publickey, true);
+            sharedsecret = keyAgreement.generateSecret();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String encrypt(String msg) {
         try {
             Key key = generateKey();
@@ -81,8 +83,6 @@ public class KeyExchangeSec {
         }
         return msg;
     }
-
-
 
     public String decrypt(String encryptedData) {
         try {
@@ -113,14 +113,20 @@ public class KeyExchangeSec {
     public PrivateKey getPrivatekey() {
         return privatekey;
     }
+    public Boolean getIsEmpty() {
+        return isEmpty;
+    }
+    public byte[] getSharedSecret() {
+        return sharedsecret;
+    }
 
     protected Key generateKey() {
         return new SecretKeySpec(sharedsecret, ALGO);
     }
 
 
-
-    public static void main(String[] args) throws IOException {
+//example code emulation on key exchange and encryption using ECDH and AES
+    /*public static void main(String[] args) throws IOException {
         KeyExchangeSec server = new KeyExchangeSec();
         KeyExchangeSec client = new KeyExchangeSec();
 
@@ -140,5 +146,5 @@ public class KeyExchangeSec {
         System.out.println(server.getPublickey().getEncoded());
         System.out.println(client.getPublickey().getEncoded());
 
-    }
+    }*/
 }

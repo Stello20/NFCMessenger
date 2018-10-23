@@ -15,6 +15,11 @@ import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.user_row_new_message.view.*
 import za.co.castellogovender.android.nfcmessenger.R
 import za.co.castellogovender.android.nfcmessenger.models.User
+import android.preference.PreferenceManager
+import android.content.SharedPreferences
+import za.co.castellogovender.android.nfcmessenger.nfc.HostCardEmulatorService
+import za.co.castellogovender.android.nfcmessenger.nfc.KeyExchangeSec
+
 
 class NewMessageActivity : AppCompatActivity() {
 
@@ -34,6 +39,18 @@ class NewMessageActivity : AppCompatActivity() {
         val USER_KEY = "USER_KEY"
     }
 
+    fun storeSharedKey(uid: String){
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
+        editor.putString(uid,preferences.getString("NextSharedKey",KeyExchangeSec.bytesToHex(HostCardEmulatorService.myDevice.sharedSecret) ))
+        editor.apply()
+    }
+
+    /*fun readSharedKey(uid: String){
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        var name = preferences.getString("Name", "")
+    }*/
+
     private fun fetchUsers(){
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -51,6 +68,9 @@ class NewMessageActivity : AppCompatActivity() {
                     val userItem = item as UserItem
                     val intent = Intent(view.context,ChatLogActivity::class.java)
                     intent.putExtra(USER_KEY, userItem.user)
+
+                    storeSharedKey(userItem.user.uid)
+
                     startActivity(intent)
                     finish()
                 }

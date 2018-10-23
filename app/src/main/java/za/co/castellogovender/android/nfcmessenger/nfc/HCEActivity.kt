@@ -4,9 +4,7 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import kotlinx.android.synthetic.main.activity_hce.*
-import kotlinx.android.synthetic.main.activity_reader.*
 import za.co.castellogovender.android.nfcmessenger.R
 
 class HCEActivity : AppCompatActivity() {
@@ -21,25 +19,28 @@ class HCEActivity : AppCompatActivity() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         btn_hce.setOnClickListener{
-            refreshAPDU()
+            showGeneratedKeyPair()
+        }
+        btn_switchtorecieve_hce.setOnClickListener{
+            val intent = Intent(this, ReaderActivity::class.java)
+            startActivity(intent)
         }
 
     }
 
-    private fun refreshAPDU(){
-        //txt_hce.append("\nMy Private Key: "+HostCardEmulatorService.myDevice.privatekey)
-        //txt_hce.append("\nMy Public Key: "+HostCardEmulatorService.myDevice.publickey)
-        if (HostCardEmulatorService.myDevice.sharedsecret!=null){
-            if (edt_key_hce.text!=null) {
-                txt_hce.text = HostCardEmulatorService.myDevice.encrypt(edt_key_hce.text.toString())
-            }
-        }
-        txt_hce.text = HostCardEmulatorService.encryptext
+    private fun showGeneratedKeyPair(){
+        HostCardEmulatorService.generateNewKeyPair()
+        txt_publickey_hce.text= "Public Key: "+HostCardEmulatorService.myDevice.publickey.encoded
+        txt_privatekey_hce.text= "Private Key: "+HostCardEmulatorService.myDevice.publickey.encoded
     }
 
     override fun onResume() {
         super.onResume()
-
+        if(!HostCardEmulatorService.myDevice.isEmpty){
+            txt_publickey_hce.text= "Public Key: "+HostCardEmulatorService.myDevice.publickey.encoded
+            txt_privatekey_hce.text= "Private Key: "+HostCardEmulatorService.myDevice.publickey.encoded
+        }
+        //to suggest to the user that they turn on NFC when they enter the transmit mode
         /*if (!nfcAdapter!!.isEnabled){
             startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
         }*/
@@ -47,6 +48,7 @@ class HCEActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        //to suggest to the user that they turn on NFC when they leave the transmit mode
         /*if (nfcAdapter!!.isEnabled){
             startActivity(Intent(Settings.ACTION_NFC_SETTINGS))
         }*/

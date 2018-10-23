@@ -7,30 +7,40 @@
         android:layout_height="match_parent"
         tools:context=".nfc.HCEActivity">
 
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_hce"
-            android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="325dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="163dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="163dp" app:layout_constraintTop_toBottomOf="@+id/btn_hce"/>
     <Button
-            android:text="Refresh"
+            android:text="Generate Key Pair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_btn"
+            android:padding="8dp"
             android:id="@+id/btn_hce" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="54dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="147dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="149dp"/>
-    <EditText
+    <TextView
+            android:text="Public Key:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/edt_key_hce" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_hce" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="84dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="85dp" android:hint="Key"/>
+            android:id="@+id/txt_publickey_hce"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_hce" app:layout_constraintEnd_toEndOf="@+id/btn_hce"
+            app:layout_constraintStart_toStartOf="@+id/btn_hce"/>
+    <TextView
+            android:text="Private Key:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_privatekey_hce" android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_publickey_hce"
+            app:layout_constraintEnd_toEndOf="@+id/txt_publickey_hce"
+            app:layout_constraintStart_toStartOf="@+id/txt_publickey_hce"/>
+    <Button
+            android:text="Switch To Recieve Mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_switchtorecieve_hce"
+            android:background="@drawable/rounded_btn"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/txt_privatekey_hce"
+            app:layout_constraintStart_toStartOf="@+id/txt_privatekey_hce"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="32dp"/>
 </android.support.constraint.ConstraintLayout>

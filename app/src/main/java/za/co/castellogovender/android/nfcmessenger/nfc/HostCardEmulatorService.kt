@@ -11,6 +11,7 @@ import java.security.KeyPair
 class HostCardEmulatorService: HostApduService() {
 
     companion object {
+        //APDU standardisations
         val TAG = "Host Card Emulator"
         val STATUS_SUCCESS = "9000"
         val STATUS_FAILED = "6F00"
@@ -23,6 +24,10 @@ class HostCardEmulatorService: HostApduService() {
 
         var encryptext = " "
         var myDevice:KeyExchangeSec = KeyExchangeSec()
+
+        fun generateNewKeyPair(){
+            myDevice = KeyExchangeSec("EC", 256)
+        }
     }
 
     override fun onDeactivated(reason: Int) {
@@ -30,9 +35,13 @@ class HostCardEmulatorService: HostApduService() {
     }
 
     override fun processCommandApdu(commandApdu: ByteArray?, extras: Bundle?): ByteArray? {
-        if (commandApdu != null) {
+        if (commandApdu != null && !myDevice.isEmpty) {
             return myDevice.publickey.encoded // send public key
         }
+        else {
+            return KeyExchangeSec.hexStringToByteArray(STATUS_FAILED)
+        }
+        //Normal handler for APDU requests, can be abstracted for additional usage
         /*
         if (commandApdu == null) {
             return Utils.hexStringToByteArray(STATUS_FAILED)
@@ -53,9 +62,7 @@ class HostCardEmulatorService: HostApduService() {
 
         if (hexCommandApdu.substring(10, 24) == AID)  {
             return Utils.hexStringToByteArray("")//STATUS_SUCCESS)
-        }*/ else {
-            return Utils.hexStringToByteArray(STATUS_SUCCESS)
-        }
+        }*/
 
     }
 
